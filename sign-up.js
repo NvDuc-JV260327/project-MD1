@@ -22,27 +22,27 @@ eyeSlash.addEventListener('click', function() {
 
 // Validate
 let msg = document.getElementById('msg'); // messeger container(to nhất)
-let signupValidate = document.getElementById('sign-up-validation'); // vld để trống 
-let x = document.querySelector('.fa-circle-xmark'); // nút tắt thông báo
+let signupValidate = document.getElementById('sign-up-validation'); // Chứa Error và các phần báo rỗng
+let x = document.querySelector('.fa-circle-xmark'); // nút x tắt thông báo lỗi 
 
 btn.addEventListener('click', function(e) { //Các sự kiện khi ấn nút
     e.preventDefault();
     let noError = true;
 
-    let checkEmail = inputEmail.value;
-    let checkUsername = inputUsername.value;
-    let checkPassword = inputPassword.value;
+    let checkEmail = inputEmail.value; //giá trị email đầu vào
+    let checkUsername = inputUsername.value; //giá trị username đầu vào
+    let checkPassword = inputPassword.value; //giá trị pass đầu vào
     let emailBlank = document.querySelector('.email-cannot-blank'); //Báo mail trống
     let usernameBlank = document.querySelector('.username-cannot-blank'); //Báo username trống
     let passwordBlank = document.querySelector('.password-cannot-blank'); //Báo pass trống
 
     //Báo rỗng
-    msg.classList.remove('show'); //reset khi bấm nút
-    validationHeader.classList.add('hidden'); //reset khi bấm nút
+    msg.classList.remove('show'); //reset msg
+    validationHeader.classList.add('hidden'); //reset phần chứa error và báo rỗng
     emailBlank.classList.add('hidden'); //reset khi bấm nút
-    usernameBlank.classList.add('hidden'); //reset khi bấm nút
-    passwordBlank.classList.add('hidden'); //reset khi bấm nút
-    signupValidate.classList.add('hidden'); //reset khi bấm nút
+    usernameBlank.classList.add('hidden'); //reset email rỗng
+    passwordBlank.classList.add('hidden'); //reset pass rỗng
+    signupValidate.classList.add('hidden'); //reset phần error
 
     if(checkEmail === '') { // Báo mail rỗng
         emailBlank.classList.remove('hidden')
@@ -125,15 +125,27 @@ btn.addEventListener('click', function(e) { //Các sự kiện khi ấn nút
     //sign-up toast
     let signupToast = document.getElementById('sign-up-toast'); //Báo đăng ký thành công
     signupToast.classList.add('hidden'); //Reset
-    if(noError) {
-        signupToast.classList.remove('hidden');
+    if(noError) { // Nếu không có lỗi input
+        let newUser = { 
+            usercode: Date.now(),
+            username: checkUsername,
+            email: checkEmail,
+            password: checkPassword,
+            role: 'admin',
+            birthday: '1997-07-05',
+            status: 'Deactive',
+            description:
+            'National again month truth. Actually civil table put nearly base.',
+        }
+        userList.push(newUser);
+        localStorage.setItem('users', JSON.stringify(userList));
+
+        signupToast.classList.remove('hidden'); // Thông báo đăng ký thành công
         msg.classList.add('show');
-        setTimeout(function(){
+        setTimeout(function(){ //Chuyển hướng sang đăng nhập sau 2s
             window.location.href = 'sign-in.html'
         }, 2000);
     }
-    
-
 })
 
 //Tắt thông báo lỗi
