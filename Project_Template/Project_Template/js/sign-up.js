@@ -76,7 +76,7 @@ btn.addEventListener('click', function(e) { //Các sự kiện khi ấn nút
     //Email đã tồn tại
     emailExistError.classList.add('hidden'); //Reset 
     let emailExist = userList.some(user => user.email === checkEmail);
-    if(emailExist) {
+    if(emailExist && checkPassword !== '' && checkUsername !== '') {
         emailExistError.classList.remove('hidden');
         signupError.classList.remove('hidden');
         msg.classList.add('show');
