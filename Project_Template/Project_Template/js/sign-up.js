@@ -131,7 +131,7 @@ btn.addEventListener('click', function(e) { //Các sự kiện khi ấn nút
             username: checkUsername,
             email: checkEmail,
             password: checkPassword,
-            role: 'admin',
+            role: 'user',
             birthday: '1997-07-05',
             status: 'Deactive',
             description:
