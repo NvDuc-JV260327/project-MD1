@@ -2,7 +2,7 @@ let userList = JSON.parse(localStorage.getItem('users')) || []; //Lấy dữ li�
 let tbody = document.getElementById('table-body'); //Thẻ tbody
 
 //Hàm render lại dữ liệu,hiện ra màn hình
-function renderUserList() {
+function renderUserList(userList) {
     tbody.innerHTML = ''; // Làm trống màn hình
     userList.forEach(function(element) { //duyệt qua toàn bộ danh sách user
         let tr = document.createElement('tr'); //tạo 1 thẻ tr
@@ -24,7 +24,7 @@ function renderUserList() {
     })
 }    
 
-renderUserList(); 
+renderUserList(userList); 
 
 //Xóa, Sửa 1 user
 tbody.addEventListener('click', function(e) { //Gắn sự kiện khi click vào tbody
@@ -34,7 +34,7 @@ tbody.addEventListener('click', function(e) { //Gắn sự kiện khi click vào
     let deleteIndex = userList.findIndex(user => user.usercode === deleteUsercode); //lấy index của user cần xóa bằng findindex
     userList.splice(deleteIndex, 1); //xóa user ở vị trí index vừa lấy
     localStorage.setItem('users', JSON.stringify(userList)); //Cập nhật lại dữ liệu trong localStorage
-    renderUserList(); //Load lại màn hình
+    renderUserList(userList); //Load lại màn hình
   }
 
   //Sửa 1 user
