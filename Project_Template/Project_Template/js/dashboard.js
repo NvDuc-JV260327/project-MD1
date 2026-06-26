@@ -40,8 +40,8 @@ tbody.addEventListener('click', function(e) { //Gắn sự kiện khi click vào
   //Sửa 1 user
   if(e.target.classList.contains('fa-pen')) { //nếu ấn vào logo sửa
     let editUsercode = e.target.id; //lấy id user cần sửa
-    let editIndex = userList.findIndex(user => user.usercode === editUsercode); //lấy index cần sửa
-    localStorage.setItem('editindex', editIndex); //lưu index cần sửa vào localStorage
+    // let editIndex = userList.findIndex(user => user.usercode === editUsercode); //lấy index cần sửa
+    localStorage.setItem('editusercode', editUsercode); //lưu usercode cần sửa vào localStorage
     window.location.href = 'edit-user.html'; //Điều hướng sang trang sửa
   }
 })
