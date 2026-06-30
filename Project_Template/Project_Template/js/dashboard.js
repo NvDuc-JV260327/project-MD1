@@ -1,6 +1,6 @@
 let userList = JSON.parse(localStorage.getItem('users')) || []; //Lấy dữ liệu từ localStorage
 let tbody = document.getElementById('table-body'); //Thẻ tbody
-let displayList = [...userList.reverse()]; //danh sách này sẽ hiện ra màn hình
+let displayList = [...userList]; //danh sách này sẽ hiện ra màn hình
 let paginationlist = document.getElementById('pagination-list'); //chứa danh sách số trang
 let btnRight = document.querySelector('.arrow-right'); //nút mở trang tiếp theo
 let btnLeft = document.querySelector('.arrow-left'); //nút mở trang trước
