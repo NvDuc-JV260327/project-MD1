@@ -127,11 +127,11 @@ btn.addEventListener('click', function(e) { //Các sự kiện khi ấn nút
     signupToast.classList.add('hidden'); //Reset
     if(noError) { // Nếu không có lỗi input
         let newUser = { 
-            usercode: Date.now(),
+            usercode: `U${Date.now()}`,
             username: checkUsername,
             email: checkEmail,
             password: checkPassword,
-            role: 'user',
+            role: 'admin',
             birthday: '1997-07-05',
             status: 'Deactive',
             description:
@@ -139,15 +139,12 @@ btn.addEventListener('click', function(e) { //Các sự kiện khi ấn nút
         }
         userList.push(newUser);
         localStorage.setItem('users', JSON.stringify(userList));
-
         signupToast.classList.remove('hidden'); // Thông báo đăng ký thành công
         msg.classList.add('show');
         setTimeout(function(){ //Chuyển hướng sang đăng nhập sau 2s
             window.location.href = 'sign-in.html'
         }, 2000);
     }
-    
-
 })
 
 //Tắt thông báo lỗi
