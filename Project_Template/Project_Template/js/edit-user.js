@@ -1,6 +1,7 @@
 let userList = JSON.parse(localStorage.getItem('users')) || []; //lấy dữ liệu user từ loacalStogage về
-let editIndex = Number(localStorage.getItem('editindex'));
-
+// let editIndex = Number(localStorage.getItem('editindex'));
+let editUserCode = localStorage.getItem('editusercode');
+let editIndex = userList.findIndex(user => user.usercode === editUserCode);
 //lấy liên kết tới các thẻ HTML
 let userCode = document.getElementById('user-code'); //link usercode 
 let userName = document.getElementById('username'); //link username
@@ -15,12 +16,6 @@ let birthday = document.getElementById('dob'); //sinh nhật
 let statusOption = document.querySelector('input[name = "status"]:checked'); //trạng thái hoạt động
 let description = document.querySelector('.description-text-input'); //miêu tả
 
-//giá trị trong các thẻ HTML
-let inputUserCode = userCode.value;
-let inputUserName = userName.value;
-let inputEmail = email.value;
-let inputPassword = password.value;
-
 //hiện và ẩn pass
 eye.addEventListener('click', function() {
     password.type = 'text';
@@ -34,10 +29,41 @@ eyeSlash.addEventListener('click', function() {
 });
 
 //đổ dữ liệu user cần sửa lên form
-userCode.value = userList[editIndex].usercode;
+userCode.value = userList[editIndex].usercode; 
 email.value = userList[editIndex].email;
 userName.value = userList[editIndex].username;
 password.value = userList[editIndex].password;
+role.value = userList[editIndex].role;
+birthday.value = userList[editIndex].birthday;
+description.value = userList[editIndex].description;
+let statusList = document.querySelectorAll('input[name = "status"]'); //đổ dữ lệu status
+statusList.forEach(radio => {
+    if(radio.value === userList[editIndex].status) {
+        radio.checked = true;
+    }
+})
+
+email.disabled = false; //cho phép sửa mail
+
+//thêm thông báo lỗi định dạng mail
+let divEmailError = document.createElement('div');
+divEmailError.classList.add('email-format-error', 'hidden');
+divEmailError.innerHTML = 
+    `<i class="fa-solid fa-circle-exclamation"></i>
+    <span class="edit-error-message">
+    Email không đúng định dạng
+    </span>`;
+document.getElementById('edit-error').appendChild(divEmailError);   
+
+//thêm thông báo email không được bỏ trống
+let divEmailEmpty = document.createElement('div');
+divEmailEmpty.classList.add('email-empty-error', 'hidden');
+divEmailEmpty.innerHTML = 
+    `<i class="fa-solid fa-circle-exclamation"></i>
+    <span class="edit-error-message">
+    Email không được để trống
+    </span>`
+document.getElementById('edit-error').appendChild(divEmailEmpty);
 
 //gắn sự kiện khi ấn nút back
 btnBack.addEventListener('click', function() {
@@ -75,12 +101,29 @@ btnSave.addEventListener('click', function(e) {
         document.querySelector('.password-min-length-error').classList.remove('hidden');
         showError();
     }
+    //lỗi bỏ trống email
+    document.querySelector('.email-empty-error').classList.add('hidden');
+    if(email.value === '') {
+        noError = false;
+       document.querySelector('.email-empty-error').classList.remove('hidden');
+       showError();
+    }
 
+    //lỗi mail không đúng định dạng
+    document.querySelector('.email-format-error').classList.add('hidden');
+    let emailRegex = /^[a-zA-Z0-9._%-]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/;
+    if(!emailRegex.test(email.value) && email.value != '') {
+        noError = false;
+        document.querySelector('.email-format-error').classList.remove('hidden');
+        showError();
+    }
+    //nếu không có lỗi gì
+    document.getElementById('edit-toast').classList.add('hidden');
     if(noError === true) {
         let user = {
             usercode: userList[editIndex].usercode,
             username: userName.value,
-            email: userList[editIndex].email,
+            email: email.value,
             password: password.value,
             role: role.value,
             birthday: birthday.value,
@@ -89,7 +132,11 @@ btnSave.addEventListener('click', function(e) {
         }
         userList.splice(editIndex, 1, user);
         localStorage.setItem('users', JSON.stringify(userList));
-        localStorage.removeItem('editindex');
-        window.location.href = 'dashboard.html';
+        localStorage.removeItem('editusercode');
+        document.getElementById('edit-toast').classList.remove('hidden');
+        document.getElementById('msg').classList.add('show');
+        setTimeout(function() {
+            window.location.href = 'dashboard.html';
+        }, 2000);
     }
 })
