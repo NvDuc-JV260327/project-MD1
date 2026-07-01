@@ -239,7 +239,7 @@ select {
   opacity: 1;
   transform: translateY(0);
   bottom: 50px;
-  right: 26px;
+  right: 326px;
 }
 /* Add toast */
 #msg #add-toast {
